@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="src" path="Aseguramiento_Calidad/src"/>
+	<classpathentry kind="lib" path="Aseguramiento_Calidad/dist/Aseguramiento_Calidad.jar"/>
+	<classpathentry kind="lib" path="Aseguramiento_Calidad/dist/lib/commons-collections4-4.4.jar"/>
+	<classpathentry kind="lib" path="Aseguramiento_Calidad/dist/lib/commons-compress-1.19.jar"/>
+	<classpathentry kind="lib" path="Aseguramiento_Calidad/dist/lib/poi-4.1.1.jar"/>
+	<classpathentry kind="lib" path="Aseguramiento_Calidad/dist/lib/poi-ooxml-4.1.1.jar"/>
+	<classpathentry kind="lib" path="Aseguramiento_Calidad/dist/lib/poi-ooxml-schemas-4.1.1.jar"/>
+	<classpathentry kind="lib" path="Aseguramiento_Calidad/dist/lib/xmlbeans-3.1.0.jar"/>
+	<classpathentry kind="lib" path="Aseguramiento_Calidad/lib/commons-collections4-4.4.jar"/>
+	<classpathentry kind="lib" path="Aseguramiento_Calidad/lib/commons-compress-1.19.jar"/>
+	<classpathentry kind="lib" path="Aseguramiento_Calidad/lib/poi-4.1.1.jar"/>
+	<classpathentry kind="lib" path="Aseguramiento_Calidad/lib/poi-ooxml-4.1.1.jar"/>
+	<classpathentry kind="lib" path="Aseguramiento_Calidad/lib/poi-ooxml-schemas-4.1.1.jar"/>
+	<classpathentry kind="lib" path="Aseguramiento_Calidad/lib/xmlbeans-3.1.0.jar"/>
+	<classpathentry kind="output" path="Aseguramiento_Calidad/build/classes"/>
+</classpath>
