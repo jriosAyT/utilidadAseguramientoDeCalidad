@@ -1,4 +1,4 @@
-package adc.types;
+package adc.types.gases;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -19,9 +19,9 @@ import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
-public class O2 {
+public class AntiguoNOX {
 	
-	public static void AC_02()  throws IOException {
+	public static void AC_NOx()  throws IOException {
 		
 		Integer diferenciaZonaHoraria = 4;
 //		Variables de salida del excel
@@ -29,9 +29,9 @@ public class O2 {
 		String nombreResultado = "ResultadosCalibraciones Gases";
 		String nombrePunto = "aseguramientoDeCalidadGases";
 //		Rutas de acceso a excel
-		String rutaArchivoEntrada = "C:/Users/lithi/Downloads/AseguramientoDeCalidad/AC-O2-Agosto-2020.xlsx";
-		String rutaArchivoSalida = "C:/Users/lithi/Downloads/AseguramientoDeCalidad/SalidaAC-O2.xlsx";
-	
+		String rutaArchivoEntrada = "C:/Users/lithi/Downloads/AseguramientoDeCalidad/AC-NOx-agosto-2020.xlsx";
+		String rutaArchivoSalida = "C:/Users/lithi/Downloads/AseguramientoDeCalidad/SalidaAC-NOx.xlsx";
+		
 		
 		ArrayList<String> preValores = new ArrayList();
 		ArrayList<String> valores = new ArrayList();
@@ -240,7 +240,7 @@ public class O2 {
 				
 				String dato = 
 						"{\"fechaRegistros\":" + fechaRegistroString
-						+ ",\"O2\":{" + "\"nivelCero\":{"
+						+ ",\"NOX\":{" + "\"nivelCero\":{"
 						+ "\"numCilindro\": \"" + numCilindro1 + "\"," 
 						+ "\"horaInicio\":" + horaIString + ","
 						+ "\"concentracionNivelPatron\":" + preValores.get(4) + "," 

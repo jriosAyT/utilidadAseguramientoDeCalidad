@@ -1,4 +1,4 @@
-package adc.types;
+package adc.types.gases;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -19,9 +19,9 @@ import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
-public class CO2modAntiguo {
+public class NOx {
 	
-	public static void AC_CO2modAntiguo()  throws IOException {
+	public static ArrayList<String> AC_NOx(String ruta)  throws IOException {
 		
 		Integer diferenciaZonaHoraria = 4;
 //		Variables de salida del excel
@@ -29,12 +29,12 @@ public class CO2modAntiguo {
 		String nombreResultado = "ResultadosCalibraciones Gases";
 		String nombrePunto = "aseguramientoDeCalidadGases";
 //		Rutas de acceso a excel
-		String rutaArchivoEntrada = "C:/Users/lithi/Downloads/AseguramientoDeCalidad/AC-CO2-Agosto-2020.xlsx";
-		String rutaArchivoSalida = "C:/Users/lithi/Downloads/AseguramientoDeCalidad/SalidaAC-CO2.xlsx";
+		String rutaArchivoEntrada = ruta;
+		String rutaArchivoSalida = "C:/Users/lithi/Downloads/AseguramientoDeCalidad/SalidaAC-Nox.xlsx";
+		
 		
 		ArrayList<String> preValores = new ArrayList();
 		ArrayList<String> valores = new ArrayList();
-		ArrayList<String> horas = new ArrayList();
 		ArrayList<Double> valorHoras2 = new ArrayList();
 
 		String excelFilePath = rutaArchivoEntrada;
@@ -76,8 +76,9 @@ public class CO2modAntiguo {
 						if (cell.getStringCellValue().isBlank() | cell.getStringCellValue().isEmpty()) {
 
 							preValores.add(cell.getStringCellValue());
+						}else {
+							preValores.add(cell.getStringCellValue());
 						}
-						horas.add(cell.getStringCellValue());
 						break;
 					case NUMERIC:
 						if (Double.toString(cell.getNumericCellValue()).length() == 0
@@ -87,19 +88,15 @@ public class CO2modAntiguo {
 						} else {
 							preValores.add(Double.toString(cell.getNumericCellValue()));
 						}
-						horas.add(String.valueOf(Double.toString(cell.getNumericCellValue())));
 						break;
 					case BLANK:
 						preValores.add(null);
-						horas.add(String.valueOf(Double.toString(cell.getNumericCellValue())));
 						break;
 					case ERROR:
 						preValores.add(null);
-						horas.add(String.valueOf(Double.toString(cell.getNumericCellValue())));
 						break;
 					case _NONE:
 						preValores.add(null);
-						horas.add(String.valueOf(Double.toString(cell.getNumericCellValue())));
 						break;
 
 					}
@@ -111,15 +108,20 @@ public class CO2modAntiguo {
 				int puntoFlotanteFecha = preValores.get(1).indexOf(".");
 				int puntoFlotante2;
 				
-				DecimalFormat fechaFormateada = new DecimalFormat("####");
+				DecimalFormat formateoDecimal = new DecimalFormat("####");
 				
 				String concatFechaHora = preValores.get(1).substring(0, puntoFlotanteFecha);
+				
+				//Para fecha de vencimiento
+				String fechaVencimiento1 = preValores.get(7); 
+				String fechaVencimiento2 = preValores.get(18); 
 				
 				/* Agrega 5 horas y 1 minuto mas a la celda hora */
 				Double fechaDou;
 				Double difMinutos = 0.00084; 	// -> 55 segundos aprox excel
 				Double difHoras = 0.0415; 		// -> 1 Hora aprox excel 
 				Double fechafinal;
+
 
 				/* Variables JSON dentro del excel */
 				String fechaRegistro = concatFechaHora;		//Fecha registro
@@ -129,6 +131,30 @@ public class CO2modAntiguo {
 				String horaFRLA = concatFechaHora;			//Hora final registro lectura analizador 2
 			
 				String concatFinal = concatFechaHora;
+				
+				// Solucion para numero cilindro celda 3 y 14
+				String numCilindro1 = null;
+				if(preValores.get(2) != null) {
+					String x = preValores.get(2);
+					if(x.indexOf(".")!=-1) {
+						Double y = Double.parseDouble(x);
+						numCilindro1 = formateoDecimal.format(y);
+					}
+					else {
+						numCilindro1 = x;
+					}
+				}
+				String numCilindro2 = null;
+				if(preValores.get(13) != null) {
+					String x = preValores.get(13);
+					if(x.indexOf(".")!=-1) {
+						Double y = Double.parseDouble(x);
+						numCilindro2 = formateoDecimal.format(y);
+					}
+					else {
+						numCilindro2 = x;
+					}
+				}
 
 				// En caso de que venga celdas vacias no genera el error y el valor de las horas queda con el valor de la fecha en que se creo.
 				// y en el caso de existir dato se transforma a un valor concatenado con la fecha, listo para ser convertido en timestamps
@@ -179,63 +205,71 @@ public class CO2modAntiguo {
 				Double horaFConvertida = ( Double.parseDouble(horaF) - 25569.0 + (5/24) ) * 86400;
 				Double horaFRLAConvertida = ( Double.parseDouble(horaFRLA) - 25569.0 + (5/24) ) * 86400;
 				
-				/* Formateo de double para que quede en numero 1600000000 + 000 equivalente a milisegundos del timestaps*/
-				String fechaRegistroString = (String.valueOf(fechaFormateada.format(fechaRegistroConvertida)))+"000";
-				String horaIString = (String.valueOf(fechaFormateada.format(horaIConvertida)))+"000";
-				String horaIRLAString = (String.valueOf(fechaFormateada.format(horaIRLAConvertida)))+"000";
-				String horaFString = (String.valueOf(fechaFormateada.format(horaFConvertida)))+"000";
-				String horaFRLAString = (String.valueOf(fechaFormateada.format(horaFRLAConvertida)))+"000";
+				Double fechaVencimientoConvertida1 = ( Double.parseDouble(fechaVencimiento1) - 25569.0 + (5/24) ) * 86400;
+				Double fechaVencimientoConvertida2 = ( Double.parseDouble(fechaVencimiento2) - 25569.0 + (5/24) ) * 86400;
 				
-				if (preValores.get(8) == null ){
+				/* Formateo de double para que quede en numero 1600000000 + 000 equivalente a milisegundos del timestaps*/
+				String fechaRegistroString = (String.valueOf(formateoDecimal.format(fechaRegistroConvertida)))+"000";
+				String horaIString = (String.valueOf(formateoDecimal.format(horaIConvertida)))+"000";
+				String horaIRLAString = (String.valueOf(formateoDecimal.format(horaIRLAConvertida)))+"000";
+				String horaFString = (String.valueOf(formateoDecimal.format(horaFConvertida)))+"000";
+				String horaFRLAString = (String.valueOf(formateoDecimal.format(horaFRLAConvertida)))+"000";
+				
+				String fechaVencimientoString1 = (String.valueOf(formateoDecimal.format(fechaVencimientoConvertida1)))+"000";
+				String fechaVencimientoString2 = (String.valueOf(formateoDecimal.format(fechaVencimientoConvertida2)))+"000";
+				
+				if (preValores.get(3) == null ){
 					fechaRegistroString = preValores.get(19);
 					horaIString = preValores.get(3);
 					horaIRLAString = preValores.get(8);
 					horaFString = preValores.get(14);
-					horaFRLAString= preValores.get(19);
+					horaFRLAString = preValores.get(19);
+					fechaVencimientoString1 = preValores.get(7);
+					fechaVencimientoString2 = preValores.get(18);
 				}
 				
 				/*
 				 * Fin del Bloque de posible solucion
 				 */
 
-				String hor = horas.get(1);
-				
+
 //				***********************************				
 //				********** ATENTO AQUI ************
 //				***********************************
+//				.substring(0, preValores.get(2).indexOf("."))
+				
 				String dato = 
-						"{\"fechaRegistros\":" + fechaRegistroString
-						+ ",\"CO2\":{" + "\"nivelCero\":{"
-						+ "\"numCilindro\":" + preValores.get(2) + "," 
+						",\"NOX\":{" + "\"nivelCero\":{"
+						+ "\"numCilindro\": \"" + numCilindro1 + "\"," 
 						+ "\"horaInicio\":" + horaIString + ","
 						+ "\"concentracionNivelPatron\":" + preValores.get(4) + "," 
 						+ "\"porcentajeIncertidumbre\":"+ preValores.get(6) + "," 
-						+ "\"vencimiento\":" + preValores.get(7) + "," 
+						+ "\"vencimiento\":" + fechaVencimientoString1 + "," 
 						+ "\"horaRegistroLectura\":" + horaIRLAString + "," 
 						+ "\"escalaAnalizador\":" + preValores.get(9) + "," 
 						+ "\"valorLectura\":" + preValores.get(10) + "," 
 						+ "\"porcentajeNivel\":" + preValores.get(5) + "," 
 						+ "\"diferencia\":" + preValores.get(11) + "," 
 						+ "\"error\":" + preValores.get(12) + "}," 
-						+ "\"nivelSpan\":{" + "\"numCilindro\":" + preValores.get(13) + "," 
+						+ "\"nivelSpan\":{" 
+						+ "\"numCilindro\": \"" + numCilindro2+ "\"," 
 						+ "\"horaInicio\":" + horaFString + ","
 						+ "\"concentracionNivelPatron\":" + preValores.get(15) + "," 
 						+ "\"porcentajeIncertidumbre\":" + preValores.get(17) + "," 
-						+ "\"vencimiento\":" + preValores.get(18) + "," 
+						+ "\"vencimiento\":" + fechaVencimientoString2 + "," 
 						+ "\"horaRegistroLectura\":" + horaFRLAString + "," 
 						+ "\"escalaAnalizador\":" + preValores.get(20) + "," 
 						+ "\"valorLectura\":" + preValores.get(21) + "," 
 						+ "\"porcentajeNivel\":" + preValores.get(16) + ","
 						+ "\"diferencia\":" + preValores.get(22) + "," 
 						+ "\"error\":" + preValores.get(23) 
-						+ "}}}";
+						+ "}}";
 
 				valores.add(dato);
 
 				/* var toma un valor listo para ser mostrado en EXCEL como fecha */
 				var = Double.parseDouble(concatFinal);
 				valorHoras2.add(var);
-				horas.clear();
 				preValores.clear();
 				iterador++;
 			}
@@ -269,12 +303,8 @@ public class CO2modAntiguo {
 			pagina.autoSizeColumn(1);
 			pagina.autoSizeColumn(2);
 			pagina.autoSizeColumn(3);
-
-			FileOutputStream salida = new FileOutputStream(archivo);
-			workbook2.write(salida);
-			workbook2.close();
-
 		}
-	}
 
+		return valores;
+	}
 }
