@@ -1,4 +1,4 @@
-package adc.types;
+package adc.types.gases;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -19,9 +19,10 @@ import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
-public class O2 {
+public class CO2 {
 	
-	public static void AC_02()  throws IOException {
+	public static ArrayList<String> AC_CO2(String ruta)  throws IOException {
+		
 		
 		Integer diferenciaZonaHoraria = 4;
 //		Variables de salida del excel
@@ -29,9 +30,9 @@ public class O2 {
 		String nombreResultado = "ResultadosCalibraciones Gases";
 		String nombrePunto = "aseguramientoDeCalidadGases";
 //		Rutas de acceso a excel
-		String rutaArchivoEntrada = "C:/Users/lithi/Downloads/AseguramientoDeCalidad/AC-O2-Agosto-2020.xlsx";
+		String rutaArchivoEntrada = ruta;
 		String rutaArchivoSalida = "C:/Users/lithi/Downloads/AseguramientoDeCalidad/SalidaAC-O2.xlsx";
-	
+		
 		
 		ArrayList<String> preValores = new ArrayList();
 		ArrayList<String> valores = new ArrayList();
@@ -239,8 +240,7 @@ public class O2 {
 //				.substring(0, preValores.get(2).indexOf("."))
 				
 				String dato = 
-						"{\"fechaRegistros\":" + fechaRegistroString
-						+ ",\"O2\":{" + "\"nivelCero\":{"
+						",\"CO2\":{" + "\"nivelCero\":{"
 						+ "\"numCilindro\": \"" + numCilindro1 + "\"," 
 						+ "\"horaInicio\":" + horaIString + ","
 						+ "\"concentracionNivelPatron\":" + preValores.get(4) + "," 
@@ -264,7 +264,7 @@ public class O2 {
 						+ "\"porcentajeNivel\":" + preValores.get(16) + ","
 						+ "\"diferencia\":" + preValores.get(22) + "," 
 						+ "\"error\":" + preValores.get(23) 
-						+ "}}}";
+						+ "}}";
 
 				valores.add(dato);
 
@@ -304,12 +304,9 @@ public class O2 {
 			pagina.autoSizeColumn(1);
 			pagina.autoSizeColumn(2);
 			pagina.autoSizeColumn(3);
-
-			FileOutputStream salida = new FileOutputStream(archivo);
-			workbook2.write(salida);
-			workbook2.close();
-
 		}
+
+		return valores;
 	}
 
 }
