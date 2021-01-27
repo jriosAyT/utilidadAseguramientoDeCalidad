@@ -34,13 +34,8 @@ public class Aseguramiento {
  *  que posee el primer elemento ingresado (en este caso NOX). PD: agregar valores de dias diferentes no ha sido probado en un ambilogger para ver lo que ocurre. 
  *  
  */
-		
-		String rutaArchivoNOX = "C:/Users/lithi/Downloads/AseguramientoDeCalidad/AC-NOx-agosto-2020.xlsx";
-		String rutaArchivoCO2 = "C:/Users/lithi/Downloads/AseguramientoDeCalidad/AC-CO2-agosto-2020.xlsx";
-		String rutaArchivoO2 = "C:/Users/lithi/Downloads/AseguramientoDeCalidad/AC-O2-agosto-2020.xlsx";
-		String rutaArchivoSO2 = "C:/Users/lithi/Downloads/AseguramientoDeCalidad/AC-SO2-agosto-2020.xlsx";
 
-		Gases.AC_GASES(rutaArchivoNOX, rutaArchivoSO2, rutaArchivoCO2, rutaArchivoO2);
+		Gases.AC_GASES();
 	}
 
 }

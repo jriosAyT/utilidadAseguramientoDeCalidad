@@ -19,10 +19,9 @@ import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
-public class CO2 {
+public class CO {
 	
-	public static ArrayList<String> AC_CO2(String ruta)  throws IOException {
-		
+	public static ArrayList<String> AC_CO(String ruta)  throws IOException {
 		
 		Integer diferenciaZonaHoraria = 4;
 //		Variables de salida del excel
@@ -31,7 +30,7 @@ public class CO2 {
 		String nombrePunto = "aseguramientoDeCalidadGases";
 //		Rutas de acceso a excel
 		String rutaArchivoEntrada = ruta;
-		String rutaArchivoSalida = "C:/Users/lithi/Downloads/AseguramientoDeCalidad/SalidaAC-CO2.xlsx";
+		String rutaArchivoSalida = "C:/Users/lithi/Downloads/AseguramientoDeCalidad/SalidaAC-CO.xlsx";
 		
 		
 		ArrayList<String> preValores = new ArrayList();
@@ -240,7 +239,7 @@ public class CO2 {
 //				.substring(0, preValores.get(2).indexOf("."))
 				
 				String dato = 
-						",\"CO2\":{" + "\"nivelCero\":{"
+						",\"CO\":{" + "\"nivelCero\":{"
 						+ "\"numCilindro\": \"" + numCilindro1 + "\"," 
 						+ "\"horaInicio\":" + horaIString + ","
 						+ "\"concentracionNivelPatron\":" + preValores.get(4) + "," 
@@ -308,5 +307,4 @@ public class CO2 {
 
 		return valores;
 	}
-
 }

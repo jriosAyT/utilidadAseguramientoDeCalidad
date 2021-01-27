@@ -30,7 +30,7 @@ public class NOx {
 		String nombrePunto = "aseguramientoDeCalidadGases";
 //		Rutas de acceso a excel
 		String rutaArchivoEntrada = ruta;
-		String rutaArchivoSalida = "C:/Users/lithi/Downloads/AseguramientoDeCalidad/SalidaAC-O2.xlsx";
+		String rutaArchivoSalida = "C:/Users/lithi/Downloads/AseguramientoDeCalidad/SalidaAC-Nox.xlsx";
 		
 		
 		ArrayList<String> preValores = new ArrayList();

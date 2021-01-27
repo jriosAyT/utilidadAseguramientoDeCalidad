@@ -19,7 +19,9 @@ import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
+import adc.types.gases.CO;
 import adc.types.gases.CO2;
+import adc.types.gases.COH;
 import adc.types.gases.NOx;
 import adc.types.gases.O2;
 import adc.types.gases.SO2;
@@ -29,7 +31,7 @@ public class Gases {
 	/*
 	 * ruta NOX, ruta CO2, ruta O2, ruta SO2
 	 */
-	public static void AC_GASES(String rutaNOX, String rutaSO2, String rutaCO2, String rutaO2) throws IOException {
+	public static void AC_GASES() throws IOException {
 
 		Integer diferenciaZonaHoraria = 4;
 //		Variables de salida del excel
@@ -38,12 +40,14 @@ public class Gases {
 		String nombrePunto = "aseguramientoDeCalidadGases";
 
 //		Rutas de acceso a excel
-		String rutaArchivoPrincipal = rutaNOX;
-		String rutaArchivoCO2 = rutaCO2;
-		String rutaArchivoO2 = rutaO2;
-		String rutaArchivoSO2 = rutaSO2;
+		String rutaArchivoPrincipal = "C:/Users/lithi/Downloads/AseguramientoDeCalidad2/AC-NOX.xlsx";
+		String rutaArchivoCO2 = "C:/Users/lithi/Downloads/AseguramientoDeCalidad2/AC-CO2.xlsx";
+		String rutaArchivoO2 = "C:/Users/lithi/Downloads/AseguramientoDeCalidad2/AC-O2.xlsx";
+		String rutaArchivoSO2 = "C:/Users/lithi/Downloads/AseguramientoDeCalidad2/AC-SO2.xlsx";
+		String rutaArchivoCO = "C:/Users/lithi/Downloads/AseguramientoDeCalidad2/AC-CO.xlsx";
+		String rutaArchivoCOH = "C:/Users/lithi/Downloads/AseguramientoDeCalidad2/AC-COH.xlsx";
 
-		String rutaArchivoSalida = "C:/Users/lithi/Downloads/AseguramientoDeCalidad/SalidaAC-GASES.xlsx";
+		String rutaArchivoSalida = "C:/Users/lithi/Downloads/AseguramientoDeCalidad2/SalidaAC-GASES.xlsx";
 
 		ArrayList<String> preValores = new ArrayList();
 		ArrayList<Double> valorHoras2 = new ArrayList();
@@ -55,12 +59,16 @@ public class Gases {
 		ArrayList<String> datosSO2 = new ArrayList();
 		ArrayList<String> datosCO2 = new ArrayList();
 		ArrayList<String> datosO2 = new ArrayList();
+		ArrayList<String> datosCO = new ArrayList();
+		ArrayList<String> datosCOH = new ArrayList();
 
 // Datos de otros gases
 		datosNOX = NOx.AC_NOx(rutaArchivoPrincipal);
 		datosSO2 = SO2.AC_SO2(rutaArchivoSO2);
 		datosCO2 = CO2.AC_CO2(rutaArchivoCO2);
 		datosO2 = O2.AC_O2(rutaArchivoO2);
+//		datosCO = CO.AC_CO(rutaArchivoCO);
+//		datosCOH = COH.AC_COH(rutaArchivoCOH);
 
 		String excelFilePath = rutaArchivoPrincipal;
 
@@ -262,10 +270,6 @@ public class Gases {
 				 * Fin del Bloque de posible solucion
 				 */
 
-//				***********************************				
-//				********** ATENTO AQUI ************
-//				***********************************
-
 				String dato = "{\"fechaRegistros\":" + fechaRegistroString;
 
 				datosCabecera.add(dato);
@@ -286,8 +290,10 @@ public class Gases {
 				union.add(datosCabecera.get(x) 
 						+ datosNOX.get(x) 
 						+ datosSO2.get(x) 
+//						+ datosCO.get(x)
 						+ datosCO2.get(x) 
 						+ datosO2.get(x)
+//						+ datosCOH.get(x)
 						+ "}"); //
 			}
 			
